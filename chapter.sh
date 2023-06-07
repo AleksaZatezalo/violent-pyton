@@ -5,6 +5,7 @@ echo "Creating $1 subdirectories. 1 for each chapter. Pushing to Github."
 for i in $(seq 1 1 $1)
 do
 	mkdir "ch$i"
+	touch "./ch$i/notes.txt"
 done
 git add .
 git commit -m "Chapter Structure Created."
