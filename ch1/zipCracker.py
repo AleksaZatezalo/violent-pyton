@@ -5,6 +5,7 @@ Date: June 18th, 2022
 """
 
 import zipfile
+from threading import Thread
 
 def extractFile(zFile, password):
     try:
@@ -18,10 +19,8 @@ def main():
     passFile = open('dictionary.txt')
     for line in passFile.readlines():
         password = line.strip('\n')
-        guess = extractFile(zFile, password)
-        if guess:
-            print ('[+] Password = ' + password + '\n')
-            exit(0)
+        t = Thread(target=extractFile, args=(zFile, password))
+        t.start()
 
 if __name__ == '__main__':
     main()
