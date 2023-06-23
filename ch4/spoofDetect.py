@@ -35,7 +35,19 @@ def testTTL(pkt):
         pass
 
 def main():
-
+    parser = optparse.OptionParser("useage%prog " + "-i <interface> -t <tresh>")
+    parser.add_option("-i", dest = "iface", type="string", help="specify a network interface")
+    parser.add_option("-t", dest="tresh", type="int", help="specify treshold count")
+    (options, args) = parser.parse_args()
+    if options.iface == None:
+        conf.iface = "eth0"
+    else:
+        conf.iface = options.iface
+    if options.tresh == None:
+        conf.tresh = options.tresh
+    else: 
+        conf.tresh = TRESH
+        
     sniff(prn=testTTL, store=0)
 
 if __name__ == "__main__":
