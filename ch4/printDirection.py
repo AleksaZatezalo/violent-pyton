@@ -4,8 +4,27 @@ Author: Aleksa Zatezalo
 Date: June 23, 2023
 """
 
-import dpkt
-import socket
+import dpkt, socket, pygeoip, optparse
+gi = pygeoip.GeoIP('/opt/GeoIP/GEO.dat')
+
+
+def retGeoStr(ip):
+    """
+    Takes an IP address, ip, and prints its geo-location to STDOUT.
+    """
+
+    try:
+        rec = gi.record_by_name(ip)
+        city = rec["city"]
+        country = rec["country_code3"]
+        if (city!=""):
+            geoLoc = city +", "+country
+        else: 
+            geoLoc = country
+        return geoLoc
+    except:
+        pass 
+
 
 def printPcap(pcap):
     """
@@ -19,7 +38,7 @@ def printPcap(pcap):
             ip = eth.data
             src = socket.inet_ntoa(ip.src)
             dst = socket.inet_ntoa(ip.dst)
-            print("[+] Src: " + src + "--> Dst: " + dst)
+            print("[+] Src: " + retGeoStr(src) + "--> Dst: " + retGeoStr(dst))
         except:
             pass
         
