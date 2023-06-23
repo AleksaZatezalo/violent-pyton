@@ -7,12 +7,13 @@ Date: June 23, 2023
 # Imports
 import dpkt
 import socket
+import optparse
 
 # Global Variables
 TRESH = 10000 # Treshold for DDoS attacks
 
 # Functionality
-def findHiemind(pcap):
+def findHivemind(pcap):
     """
     Analyzes pcap files, pcap, to find the command `!lazer` sent to port 6667.
     """
@@ -65,7 +66,7 @@ def findAttack(pcap):
             dst = stream.split(":")[1]
             print("[+] " + src + " attacked " + dst + " with " + pksSent + " packets.")
 
-def findDownoad(pcap):
+def findDownload(pcap):
     """
     Analyses pcap files to see if Low Orbit Ion Cannon was downloaded.
     """
@@ -84,3 +85,23 @@ def findDownoad(pcap):
                     print('[!] ' + src + ' Downloaded LOIC.')
         except:
             pass
+def main():
+    
+    # Specify and Open PCAP Files
+    parser = optparse.OptionParser('usage%prog -p <pcapfile>')
+    parser.add_option('-p', dest='pcapFile', type='string', help="Specify pcap filename")
+    (options, args) = parser.parse_args()
+    if options.pcapFile == None:
+        print(parser.usage)
+        exit(0)
+    pcapFile = options.pcapFile
+    f = open(pcapFile)
+    pcap = dpkt.pcap.Reader(f)
+
+    # Test for LOIC
+    findDownload(pcap)
+    findHivemind(pcap)
+    findAttack(pcap)
+
+if __name__ == "__main__":
+    main()
