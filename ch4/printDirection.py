@@ -43,7 +43,14 @@ def printPcap(pcap):
             pass
         
 def main():
-    f = open('geotest.pcap')
+    parser = optparse.OptionParser('usage%prog -p <pcapfile>')
+    parser.add_option('-p', dest='pcapFile', type='string', help="Specify pcap filename")
+    (options, args) = parser.parse_args()
+    if options.pcapFile == None:
+        print(parser.usage)
+        exit(0)
+    pcapFile = options.pcapFile
+    f = open(pcapFile)
     pcap = dpkt.pcap.Reader(f)
     printPcap(pcap)
 
