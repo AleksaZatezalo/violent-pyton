@@ -47,7 +47,7 @@ def findAttack(pcap):
             ip = eth.data
             src = socket.inet_ntoa(ip.src)
             dst = socket.inet_ntoa(ip.dst)
-            tcp = ip.datadport
+            tcp = ip.data
             dport = tcp.dport
             if (dport == 80):
                 stream = src + ":" + dst
@@ -64,3 +64,23 @@ def findAttack(pcap):
             src = stream.split(":")[0]
             dst = stream.split(":")[1]
             print("[+] " + src + " attacked " + dst + " with " + pksSent + " packets.")
+
+def findDownoad(pcap):
+    """
+    Analyses pcap files to see if Low Orbit Ion Cannon was downloaded.
+    """
+
+    for (ts, buf) in pcap:
+        try:
+            eth = dpkt.ethernet.Ethernet(buf)
+            ip = eth.data
+            src = socket.inet_ntoa(ip.src)
+            dst = socket.inet_ntoa(ip.dst)
+            tcp = ip.data
+            http = dpkt.http.Request(tcp.data)
+            if http.method == 'GET':
+                uri = http.uri.lower()
+                if '.zip' in uri and 'loic' in uri:
+                    print('[!] ' + src + ' Downloaded LOIC.')
+        except:
+            pass
