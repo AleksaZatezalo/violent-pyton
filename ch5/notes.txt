@@ -1,0 +1,4 @@
+Chapter 6: Wireless Mayham with python
+- Learned about packet capture
+- Learned about bluetooth
+- LEarned about the sniffing of sensitive information
