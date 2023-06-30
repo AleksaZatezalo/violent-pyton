@@ -1,0 +1,2 @@
+Chapter 7:
+- Learned to create MSF shell and scan against known virus hashes in python.
