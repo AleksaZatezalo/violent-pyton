@@ -1,0 +1,2 @@
+Chapter 6: Web Recon with python
+- Learned to browse the web anonymously using a python anonimizer.
